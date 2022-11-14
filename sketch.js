@@ -5,10 +5,15 @@
 // released under MIT license
 
 var balls=[];
+var asteroid;
+var baseLine;
 ///////////////////////////////////////////////
 function setup() {
   createCanvas(800,500);
   //ball = new Ball();
+  asteroid=new Asteroid(width/2,height-200);
+  baseLine=height-100;
+
 }
 ///////////////////////////////////////////////
 function mouseDragged()
@@ -17,7 +22,8 @@ function mouseDragged()
 }
 function draw() {
   background(0);
-  
+  asteroid.draw();
+  asteroid.move();
   var gravity= createVector(0,0.1);
   for(let i=0;i<balls.length;i++)
   {
@@ -31,56 +37,54 @@ function draw() {
   balls[i].run();
   }
 }
+function keyPressed()
+{
+	if (key == "W")
+	{
+		asteroid.thrust = true;
+	}
+
+	if (key == "A")
+	{
+		asteroid.moveLeft = true;
+    asteroid.thrust=true;
+	}
+
+	if (key == "D")// bug asteroid leave the scene from right side 
+	{
+		asteroid.moveRight = true;
+    asteroid.thrust=true;
+	}
+}
+function keyReleased()
+{
+  console.log("tezst");
+    if(key == "W")
+    {
+	   asteroid.thrust = false;
+     console.log("test");
+    }
+    
+    if(key == "A")
+    {
+	   asteroid.moveLeft = false;
+     asteroid.thrust = false;
+
+     
+    }
+    
+    if(key == "D")
+    {
+	   asteroid.moveRight = false;
+     asteroid.thrust = false;
+
+    }
+
+}
 
 ///////////////////////////////////////////////
-class Asteroid 
-{
-  constructor()   //+ object fire 
-    {
 
-    }
-  draw()
-    {
 
-    }
-  move()
-    {
-
-    }
-  applyForce()  
-    {
-
-    }
-
- 
-}
-class Enemy
-{
-  draw() 
-  {
-
-  }
-  move()
-  {
-
-  }
-  applyForce()
-  {
-
-  }
-  draw()
-  {
-
-  }
-  move()
-  {
-
-  }
-  applyForce()
-  {
-
-  }
-}
 
 /*
 class Ball {
