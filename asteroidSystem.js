@@ -27,7 +27,7 @@ class AsteroidSystem {
     }
     if(frameCount%1000==0)
     {
-      this.aggression+=0.02
+      this.aggression+=0.005
     }
   }
 

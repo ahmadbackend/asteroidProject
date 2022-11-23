@@ -59,8 +59,9 @@ function checkCollisions(spaceship, asteroids){
      
       spaceship.location.x+=asteroids.diams[i]*4;
       spaceship.lives--;
-      if (spaceship.lives==0)
+      if (spaceship.lives<=0)
       {
+        spaceship.lives=0;
         gameOver() ;
       }
 
