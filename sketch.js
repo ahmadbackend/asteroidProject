@@ -1,17 +1,29 @@
 var spaceship;
-var asteroids;
+var asteroids;      // will be used for quadtree locations 
 var atmosphereLoc;
 var atmosphereSize;
 var earthLoc;
 var earthSize;
 var starLocs = [];
-
+var riskSound;
+var shootSound;
+var failure;
+//'use strict',
 //////////////////////////////////////////////////
+function preload()
+{
+soundFormats('mp3','wav');
+riskSound=loadSound('risk.wav')
+    //new Audio('risk.wav');
+riskSound.setVolume(0.001);
+shootSound=loadSound('sounds/shooting.wav');
+    failure=loadSound('sounds/failure.wav ')
+}
 function setup() {
   createCanvas(1200,800);
   spaceship = new Spaceship();
   asteroids = new AsteroidSystem();
-
+  rectMode(CENTER);
   //location and size of earth and its atmosphere
   atmosphereLoc = new createVector(width/2, height*2.9);
   atmosphereSize = new createVector(width*3, width*3);
@@ -23,7 +35,15 @@ function setup() {
 function draw() {
   background(0);
   sky();
-
+  //create new quadtree every frame 
+  /*let boundry=new rectangle(width/2,height/2,width,height);
+   let qt= new quadtree(boundry,4);
+   for(let p of asteroids)
+    {
+        let point= new Point(p.x, p.y,p);
+        qt.insert(point);
+        p.setHighLight(false);
+    } */
   spaceship.run();
   asteroids.run();
 
@@ -47,7 +67,21 @@ function drawEarth(){
 //////////////////////////////////////////////////
 //checks collisions between all types of bodies
 function checkCollisions(spaceship, asteroids){
+// some asteroids go out of screen and cause gameover
 
+if(asteroids.locations.length>3){
+
+
+  for(let i=0;i<asteroids.locations.length;i++)
+  {
+    if(asteroids.locations[i].x>=width||
+      asteroids.locations[i].x<=0)
+    {
+      asteroids.destroy(i);  
+      
+    }
+  }
+}
     //spaceship-2-asteroid collisions
     //YOUR CODE HERE (2-3 lines approx)
    for(let i=0;i<asteroids.locations.length;i++)
@@ -77,6 +111,7 @@ function checkCollisions(spaceship, asteroids){
      asteroids.locations[i],asteroids.diams[i]))
      {
       asteroids.destroy(i);
+      gameOver();
      }
     
     }
@@ -96,11 +131,12 @@ function checkCollisions(spaceship, asteroids){
     )
     {
     spaceship.setNearEarth();
+        riskSound.play();
     }
     //bullet collisions
     //YOUR CODE HERE (3-4 lines approx)
     for(let i=0;i<spaceship.bulletSys.bullets.length;i++)
-    {   for(let j=0;j<asteroids.locations.length;j++)
+    {   for(let j=0;j<asteroids.locations.length;j++) //
       {
       if(isInside(spaceship.bulletSys.bullets[i],
         spaceship.bulletSys.diam,asteroids.locations[j],
@@ -140,6 +176,7 @@ function isInside(locA, sizeA, locB, sizeB){
 function keyPressed(){
   if (keyIsPressed && keyCode === 32){ // if spacebar is pressed, fire!
     spaceship.fire();
+    shootSound.play();
   }
 }
 
@@ -150,6 +187,7 @@ function gameOver(){
   textSize(80);
   textAlign(CENTER);
   text("GAME OVER", width/2, height/2)
+    failure.play();
   noLoop();
 }
 

@@ -10,7 +10,8 @@ class Spaceship {
     this.lives=3;
     this.thrust=false;
     this.hits=0;
-    
+    this.rightThrust=false;
+    this.leftThrust=false;
    
   }
 
@@ -28,7 +29,7 @@ class Spaceship {
    
     text(`hit enemies: ${this.hits}`,10,30);
     fill(180)
-beginShape();
+beginShape();     //body
 	vertex(this.location.x + 10, this.location.y + 60);
 	vertex(this.location.x + 10, this.location.y + 20);
 	vertex(this.location.x + 15, this.location.y);
@@ -36,18 +37,39 @@ beginShape();
 	vertex(this.location.x + 20, this.location.y + 60);
 	endShape(CLOSE);
 
-	fill(255, 0, 0);
+	fill(255, 0, 0);      //left wing  
 	beginShape();
 	vertex(this.location.x, this.location.y + 60);
 	vertex(this.location.x + 10, this.location.y + 40);
 	vertex(this.location.x + 10, this.location.y + 60);
 	endShape(CLOSE);
+  if (this.leftThrust)  //left engine to move right 
+	{
+		fill(200, 0, 0);
+		beginShape();
+		vertex(this.location.x, this.location.y + 60);
+		vertex(this.location.x + 5, this.location.y + 80);
+		vertex(this.location.x + 10, this.location.y + 60);
+		endShape(CLOSE);
+   
+	}
 
-	beginShape();
+
+	beginShape();     // right wing 
 	vertex(this.location.x + 30, this.location.y + 60);
 	vertex(this.location.x + 20, this.location.y + 40);
 	vertex(this.location.x + 20, this.location.y + 60);
 	endShape(CLOSE);
+  if (this.rightThrust)   // right engine to move left 
+	{
+		fill(210, 0, 0);
+		beginShape();
+		vertex(this.location.x+30, this.location.y + 60);
+		vertex(this.location.x + 25, this.location.y + 80);
+		vertex(this.location.x + 20, this.location.y + 60);
+		endShape(CLOSE);
+   
+	}
 /*edit this thrust to increase gradually with
 convert it to function  that thrust increase and decrease
 gradually  function receive how long m
@@ -65,10 +87,10 @@ ouseIspreased and act based on it
 		endShape(CLOSE);
    
 	}
-    /*fill(125);
-    triangle(this.location.x - this.size/2, this.location.y + this.size/2,
-        this.location.x + this.size/2, this.location.y + this.size/2,
-        this.location.x, this.location.y - this.size/2);*/
+    if(this.leftThrust)
+    {
+
+    }
   }
 
   move(){
@@ -93,10 +115,15 @@ ouseIspreased and act based on it
     {
       if (keyIsDown(LEFT_ARROW)){
         this.applyForce(createVector(-0.01, 0));
+        this.leftThrust=false;
+        this.rightThrust=true;
+        
       }
       if (keyIsDown(RIGHT_ARROW)){
       // YOUR CODE HERE (1 line)
       this.applyForce(createVector(0.01, 0));
+      this.leftThrust=true;
+      this.rightThrust=false;
       }
     }
       if (keyIsDown(UP_ARROW)){
@@ -108,6 +135,9 @@ ouseIspreased and act based on it
       // YOUR CODE HERE (1 line)
       this.applyForce(createVector(0, 0.01));
       this.thrust=false;
+      this.leftThrust=false;
+      this.rightThrust=false;
+
       }
   }
 
@@ -132,6 +162,7 @@ ouseIspreased and act based on it
     this.acceleration.add(this.downwardspointing);
     this.acceleration.add(friction);
     console.log(friction);
+    riskSound.play()
 
   }
   boundries() // to be a little bit realistic 

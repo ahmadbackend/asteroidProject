@@ -7,6 +7,7 @@ class AsteroidSystem {
     this.accelerations = [];
     this.diams = [];
     this.aggression=0.01
+    this.highlight=false;
     
   }
 
@@ -27,7 +28,7 @@ class AsteroidSystem {
     }
     if(frameCount%1000==0)
     {
-      this.aggression+=0.005
+      this.aggression+=0.002
     }
   }
 
@@ -69,8 +70,13 @@ class AsteroidSystem {
   //destroys all data associated with each asteroid
   destroy(index){
     this.locations.splice(index,1);
+   
     this.velocities.splice(index,1);
+  
     this.accelerations.splice(index,1);
+   
     this.diams.splice(index,1);
+  
   }
+  
 }
