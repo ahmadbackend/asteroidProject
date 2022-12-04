@@ -1,10 +1,10 @@
 class box
 {
-    constructor(x,y)
+    constructor(x,y,w)
     {
         this.x=x;
     this.y=y;
-    this.w=5;
+    this.w=w;
     this.highlight=false;
     }
     intersects(other)
@@ -28,12 +28,17 @@ class box
         if(this.highlight)
         {
             fill(255);
+            //rect(this.x,this.y,25);
+            //this.y+=100;
+
+           // this.x-=100;
+            //console.log(`${this.x} this is y${this.y}`);
             
         }
         else 
         {
             fill(255,100,0);
         }
-        ellipse(this.x,this.y,this.w*2);
+       // ellipse(this.x,this.y,this.w*2);
     }
 }
