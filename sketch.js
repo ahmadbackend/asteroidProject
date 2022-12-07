@@ -38,6 +38,7 @@ function setup() {
 function draw() {
   background(0);
   sky();
+
   //create new quadtree every frame 
   /*let boundry=new rectangle(width/2,height/2,width,height);
    let qt= new quadtree(boundry,4);
@@ -71,8 +72,10 @@ function drawEarth(){
 //checks collisions between all types of bodies
 function checkCollisions(spaceship, asteroids){
 // some asteroids go out of screen and cause gameover
-let boundry=new rectangle(width/2,250,width,500);
+//350&700 based on caculations and rectmode center
+let boundry=new rectangle(width/2,350,width,700);
  qt= new quadtree(boundry,4);
+ 
  stroke(255,0,0);
  fill(255);
 // rect(600,250,1200,500);
@@ -105,11 +108,11 @@ for(let p of particles)
           strokeWeight(2);
           stroke(255);
           rect(p.x,p.y,50,50);
-    
+          qt.show();
           noStroke();
           p.x=200;
           p.y=100;
-            p.setHighLight(true);
+           p.setHighLight(true);
             
         }
       }
@@ -130,6 +133,7 @@ if(asteroids.locations.length>3){
       asteroids.locations[i].x<=0)
     {
       asteroids.destroy(i);  
+      particles.splice(i,1);
       
     }
   }
@@ -163,6 +167,7 @@ if(asteroids.locations.length>3){
      asteroids.locations[i],asteroids.diams[i]))
      {
       asteroids.destroy(i);
+      particles.splice(i,1);
       //gameOver();
      }
     
@@ -196,6 +201,7 @@ if(asteroids.locations.length>3){
         {
          spaceship.hits++;
           asteroids.destroy(j);
+          particles.splice(j,1);
           if(spaceship.hits>=8)
           {
             spaceship.lives++;

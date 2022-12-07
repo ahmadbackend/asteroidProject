@@ -7,7 +7,7 @@ class AsteroidSystem {
     this.accelerations = [];
     this.diams = [];
     this.aggression=0.01
-    this.highlight=false;
+    
     
   }
 

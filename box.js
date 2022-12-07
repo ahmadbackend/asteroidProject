@@ -10,7 +10,7 @@ class box
     intersects(other)
     {
         let d=dist(this.x,this.y,other.x,other.y);
-        return(d<this.w+this.w);
+        return(d<=this.w+other.w);
     }
     setHighLight(val)
     {
@@ -27,18 +27,14 @@ class box
         
         if(this.highlight)
         {
-            fill(255);
-            //rect(this.x,this.y,25);
-            //this.y+=100;
-
-           // this.x-=100;
-            //console.log(`${this.x} this is y${this.y}`);
+            fill(255,0,0);
+            
             
         }
         else 
         {
-            fill(255,100,0);
+            //fill(255,100,0);
         }
-       // ellipse(this.x,this.y,this.w*2);
+      
     }
 }
