@@ -2,7 +2,7 @@ class box
 {
     constructor(x,y,w)
     {
-        this.x=x;
+    this.x=x;
     this.y=y;
     this.w=w;
     this.highlight=false;
@@ -10,7 +10,7 @@ class box
     intersects(other)
     {
         let d=dist(this.x,this.y,other.x,other.y);
-        return(d<=this.w+other.w);
+        return(d<=(this.w+other.w)/2);// if distance less than diam1+diam2
     }
     setHighLight(val)
     {
@@ -27,13 +27,13 @@ class box
         
         if(this.highlight)
         {
-            fill(255,0,0);
+            fill(0,0,100);
             
-            
-        }
-        else 
-        {
-            //fill(255,100,0);
+            this.x *=width/2;
+            this.y*=height/2;
+            ellipse(this.x,this.y,this.w);
+            console.log("accessed");
+            noFill();
         }
       
     }

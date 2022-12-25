@@ -9,7 +9,7 @@ var riskSound;
 var shootSound;
 var failure;
 var particles=[];
-var ppoints={};
+var ppoints=[];
 var qt;
 //'use strict',
 //////////////////////////////////////////////////
@@ -74,7 +74,7 @@ function checkCollisions(spaceship, asteroids){
 // some asteroids go out of screen and cause gameover
 //350&700 based on caculations and rectmode center
 let boundry=new rectangle(width/2,350,width,700);
- qt= new quadtree(boundry,4);
+ qt= new quadtree(boundry,5);
  
  stroke(255,0,0);
  fill(255);
@@ -87,42 +87,47 @@ for(let i=0;i<asteroids.locations.length;i++)
 }
 for(let p of particles)
     {
-        let point= new Point(p.x, p.y,p);
+        let point= new Point(p.x, p.y,p);  
         qt.insert(point);
-        p.render();
+       // p.render();
         p.setHighLight(false);
     }
-    for(let p of particles)
+    for(let p=0;p<particles.length;p++)
      {  
-    let rectan=new rectangle(p.x,p.y,100,100);
+
+    let rectan=new rectangle(particles[p].x,particles[p].y,100,100);
     
     ppoints=qt.query(rectan);
     //console.log(typeof(ppoints));
-    if(ppoints.length>0)
+    if(typeof ppoints!==`undefined`) //to avoid the bug of empty object
     {
     for(let point of ppoints)
     {
-        let other=point.userData;
-        if(p!==other&&p.intersects(other))
+        let other=point.userData;  //
+        if(particles[p]!==other&&particles[p].intersects(other))
         {
-          strokeWeight(2);
-          stroke(255);
-          rect(p.x,p.y,50,50);
-          qt.show();
+         
+          // collision effect not fully established 
+          var horiz=random(-2,2)
+          asteroids.velocities[p].x*=horiz;
+          //asteroids.locations[other].x-=horiz;
+          //collision effect vertically  
+          var vert=random(-2,2)
+          asteroids.velocities[p].y*=vert;
+         
+         
+          //asteroids.diams[p]=500; test of my logic
+         // qt.show();
           noStroke();
-          p.x=200;
-          p.y=100;
-           p.setHighLight(true);
+          
+           particles[p].setHighLight(true);
+
+           
             
         }
       }
     }
-    else 
-    {
-       ppoints.push(" ");
-      // console.log(ppoints);
-       break;
-    }
+    
    }
 if(asteroids.locations.length>3){
 
