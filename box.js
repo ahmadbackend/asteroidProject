@@ -12,16 +12,16 @@ class box
         let d=dist(this.x,this.y,other.x,other.y);
         return(d<=(this.w+other.w)/2);// if distance less than diam1+diam2
     }
-    setHighLight(val)
+  /*  setHighLight(val) all implemented in sketch directly  
     {
         this.highlight=val;
     }
-    move()
+   /* move()  amanded  not needed any more 
     {
         this.x+=random(-1,1);
         this.y+=random(-1,1);
     }
-    render()
+    /*render()  amanded  not needed any more 
     {
         noStroke();
         
@@ -32,9 +32,9 @@ class box
             this.x *=width/2;
             this.y*=height/2;
             ellipse(this.x,this.y,this.w);
-            console.log("accessed");
+            
             noFill();
         }
       
-    }
+    }*/ 
 }

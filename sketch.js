@@ -13,15 +13,17 @@ var ppoints=[];
 var qt;
 //'use strict',
 //////////////////////////////////////////////////
-/*function preload()
+function preload()
 {
 soundFormats('mp3','wav');
-riskSound=loadSound('risk.wav')
-    //new Audio('risk.wav');
-riskSound.setVolume(0.001);
+riskSound=loadSound('sounds/risk.wav')
+riskSound.setVolume(0.02);
 shootSound=loadSound('sounds/shooting.wav');
-    failure=loadSound('sounds/failure.wav')
-}*/
+shootSound.setVolume(0.02);
+failure=loadSound('sounds/failure.wav')
+failure.setVolume(0.02);
+
+}
 function setup() {
   createCanvas(1200,800);
   spaceship = new Spaceship();
@@ -38,21 +40,9 @@ function setup() {
 function draw() {
   background(0);
   sky();
-
-  //create new quadtree every frame 
-  /*let boundry=new rectangle(width/2,height/2,width,height);
-   let qt= new quadtree(boundry,4);
-   for(let p of asteroids)
-    {
-        let point= new Point(p.x, p.y,p);
-        qt.insert(point);
-        p.setHighLight(false);
-    } */
   spaceship.run();
   asteroids.run();
-
   drawEarth();
-  
   checkCollisions(spaceship, asteroids); // function that checks collision between various elements
 }
 
@@ -78,7 +68,7 @@ let boundry=new rectangle(width/2,350,width,700);
  
  stroke(255,0,0);
  fill(255);
-// rect(600,250,1200,500);
+
  noStroke();
 for(let i=0;i<asteroids.locations.length;i++)
 {
@@ -89,7 +79,6 @@ for(let p of particles)
     {
         let point= new Point(p.x, p.y,p);  
         qt.insert(point);
-       // p.render();
         p.setHighLight(false);
     }
     for(let p=0;p<particles.length;p++)
@@ -108,19 +97,17 @@ for(let p of particles)
         {
          
           // collision effect not fully established 
-          var horiz=random(-2,2)
-          asteroids.velocities[p].x*=horiz;
-          //asteroids.locations[other].x-=horiz;
-          //collision effect vertically  
-          var vert=random(-2,2)
-          asteroids.velocities[p].y*=vert;
-         
-         
+          var horiz=random(-2,2)+0.01 ;   
+          var vert=random(-2,2)+0.01  ; 
+          
+          asteroids.velocities[p].x+=horiz;
+          asteroids.velocities[p].y+=vert;
+
           //asteroids.diams[p]=500; test of my logic
          // qt.show();
           noStroke();
           
-           particles[p].setHighLight(true);
+           //particles[p].setHighLight(true);
 
            
             
@@ -129,7 +116,8 @@ for(let p of particles)
     }
     
    }
-if(asteroids.locations.length>3){
+if(asteroids.locations.length>0)  // to avoid throwing errors (empty array)
+{
 
 
   for(let i=0;i<asteroids.locations.length;i++)
@@ -145,6 +133,8 @@ if(asteroids.locations.length>3){
 }
     //spaceship-2-asteroid collisions
     //YOUR CODE HERE (2-3 lines approx)
+    /*it is O(n) so no need to use quadtree(nlogn)
+     may be useful when having more than spaceship*/
    for(let i=0;i<asteroids.locations.length;i++)
    {
     if(isInside(spaceship.location,spaceship.size,
@@ -156,8 +146,9 @@ if(asteroids.locations.length>3){
       spaceship.lives--;
       if (spaceship.lives<=0)
       {
-        spaceship.lives=0;
+        
         gameOver() ;
+        spaceship.lives=0;
       }
 
     }
@@ -173,7 +164,8 @@ if(asteroids.locations.length>3){
      {
       asteroids.destroy(i);
       particles.splice(i,1);
-      //gameOver();
+      //gameOver();  intensionally deactivated so you can enjoy the collisions 
+      //just comment it out to validate my code 
      }
     
     }
@@ -193,7 +185,7 @@ if(asteroids.locations.length>3){
     )
     {
     spaceship.setNearEarth();
-      //  riskSound.play();
+       riskSound.play();
     }
     //bullet collisions
     //YOUR CODE HERE (3-4 lines approx)
@@ -229,7 +221,6 @@ function isInside(locA, sizeA, locB, sizeB){
     }
     else 
     {
-     // console.log("false");
       return false ;
       
     }
@@ -239,7 +230,7 @@ function isInside(locA, sizeA, locB, sizeB){
 function keyPressed(){
   if (keyIsPressed && keyCode === 32){ // if spacebar is pressed, fire!
     spaceship.fire();
-   // shootSound.play();
+   shootSound.play();
   }
 }
 
@@ -250,7 +241,7 @@ function gameOver(){
   textSize(80);
   textAlign(CENTER);
   text("GAME OVER", width/2, height/2)
-   // failure.play();
+   failure.play();
   noLoop();
 }
 

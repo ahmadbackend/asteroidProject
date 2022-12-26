@@ -1,3 +1,4 @@
+//from Daniel shiffman videos (with some amandments in sketch to avoid bugs and undefined objects)
 class Point {
     constructor(x,y,userData){
         this.x=x;

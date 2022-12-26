@@ -1,3 +1,4 @@
+//rocket style mostly from second semester of introduction to programming ITP2 with small fine touches 
 class Spaceship {
 
   constructor(){
